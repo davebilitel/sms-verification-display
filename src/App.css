@@ -1,0 +1,421 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+}
+
+.App-header {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px 32px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 32px;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.App-header h1 {
+  margin: 0;
+  color: #1a202c;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.socket-status {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.socket-status.connected {
+  background: #9ae6b4;
+  color: #22543d;
+  box-shadow: 0 0 0 1px rgba(34, 84, 61, 0.1);
+}
+
+.socket-status.disconnected {
+  background: #feb2b2;
+  color: #822727;
+  box-shadow: 0 0 0 1px rgba(130, 39, 39, 0.1);
+}
+
+.refresh-button {
+  background: #4a5568;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-button:hover {
+  background: #2d3748;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.refresh-button:active {
+  transform: translateY(0);
+}
+
+.messages-container {
+  max-width: 680px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+.message {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: left;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 2px 4px rgba(148, 163, 184, 0.05);
+  transition: all 0.2s ease;
+}
+
+.message:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 6px rgba(148, 163, 184, 0.1);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.message-from {
+  color: #2d3748;
+  font-weight: 600;
+  margin: 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.message-from::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #4299e1;
+  border-radius: 50%;
+}
+
+.message-time {
+  color: #718096;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  padding: 4px 10px;
+  background: #f7fafc;
+  border-radius: 6px;
+}
+
+.message-body {
+  flex: 1;
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.loading, .error {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 24px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.loading {
+  color: #4a5568;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.error {
+  color: #c53030;
+  background: #fff5f5;
+  border-color: #feb2b2;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.message-content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.copy-code-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #4a5568;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 90px;
+}
+
+.copy-code-button:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.copy-code-button:active {
+  transform: translateY(0);
+}
+
+.copy-code-button .code {
+  color: #2d3748;
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.copy-code-button .label {
+  font-size: 12px;
+  color: #718096;
+}
+
+/* Optional: Add animation for copy feedback */
+.copy-code-button.copied {
+  background: #9ae6b4;
+  border-color: #68d391;
+  color: #22543d;
+}
+
+/* Add a spinning animation for the loading icon */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.notice-banner {
+  background: #ebf8ff;
+  border-bottom: 1px solid #bee3f8;
+  padding: 8px;
+}
+
+.notice-content {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2c5282;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.notice-content svg {
+  color: #4299e1;
+}
+
+.message-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expiration-time {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #4a5568;
+  margin: 0;
+}
+
+.expiration-time.expiring-soon {
+  background: #fed7d7;
+  color: #c53030;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.message-skeleton {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.empty-state svg {
+  color: #a0aec0;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  color: #2d3748;
+  font-size: 18px;
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  color: #718096;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Message groups styling */
+.message-group {
+  margin-bottom: 32px;
+}
+
+.date-header {
+  color: #4a5568;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: rgba(237, 242, 247, 0.8);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+/* Retry button styling */
+.retry-button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.retry-button:hover {
+  background: #2d3748;
+  transform: translateY(-1px);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+/* Update error state */
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.error p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Connection status indicator */
+.connection-status {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  z-index: 1000;
+}
+
+.connection-status.online {
+  background: #9ae6b4;
+  color: #22543d;
+}
+
+.connection-status.offline {
+  background: #feb2b2;
+  color: #822727;
+}
+
+/* Add some spacing between messages in groups */
+.message-group .message {
+  margin-bottom: 12px;
+}
+
+.message-group .message:last-child {
+  margin-bottom: 0;
+} 
